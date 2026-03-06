@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGIS</title>
+
+    <!-- Leaflet CSS -->
+    <link 
+        rel="stylesheet" 
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
+
+</head>
+
+<body>
+   <div id="app">
+  
+  <!-- MAPA -->
+  <div id="map"></div>
+
+<div id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+        <h3>Plano Municipal De Redução De Riscos - PMRR</h3>
+    </div>
+
+    <!-- MENU -->
+    <div class="sidebar-content">
+    <ul class="menu-list">
+        <li><a href="inicio.html">🏠 Início</a></li>
+
+        <!-- BOTÃO CAMADAS -->
+        <li class="menu-item-camadas">
+            <a href="#camadas" onclick="ativarCamadas()">📍 Camadas</a>
+        </li>
+                    <!-- CAMADAS ABREM AQUI -->
+            <div id="camadas-container" class="camadas-container"> </div>
+
+    <li><a href="#fichatec" onclick="fichatecnica()">📋 Ficha técnica</a></li>
+    <li><a href="#sobre" onclick="funcaoMenu()">ℹ️ Sobre o PMRR</a></li>
+</ul>
+    </div>
+    <!-- LEGENDA -->
+    <div class="sidebar-legenda">
+        <h4>Legenda</h4>
+        <ul style="list-style:none; padding:0;">
+        <li><span style="background:#660010; width:15px; height:15px; display:inline-block;"></span> Praça</li>
+        <li><span style="background:#e67e22; width:15px; height:15px; display:inline-block;"></span> Retaludamento</li>
+        <li><span style="background:#27ae60; width:15px; height:15px; display:inline-block;"></span> Solo Grampeado Verde</li>
+        <li><span style="background:rgba(3, 37, 24, 0.93); width:15px; height:15px; display:inline-block;"></span> Solo Grampeado</li>
+        <li><span style="background:rgba(49, 52, 221, 0.93); width:15px; height:15px; display:inline-block;"></span> Cortina Atirantada</li>
+        <li><span style="background:rgba(80, 4, 4, 0.93); width:15px; height:15px; display:inline-block;"></span> Muro de Arrimo</li>
+        <li><span style="background:rgba(11, 125, 231, 0.93); width:15px; height:15px; display:inline-block;"></span> Canaleta 1 - Drenagem</li>
+        <li><span style="background:rgba(13, 57, 99, 0.93); width:15px; height:15px; display:inline-block;"></span> Galeria pluvial - Drenagem</li>
+        <li><span style="background:rgba(7, 87, 83, 0.93); width:15px; height:15px; display:inline-block;"></span> Escadaria dissipadora hidráulica - Drenagem</li>
+        <li><span style="background: #FFFF33; width:15px; height:15px; display:inline-block;"></span> Risco Médio (R2)</li>
+        <li><span style="background: #CC0000; width:15px; height:15px; display:inline-block;"></span> Risco Alto (R3)</li>
+        <li><span style="background: #9900CC; width:15px; height:15px; display:inline-block;"></span> Risco Muito Alto (R4)</li>
+    </ul>
+</div>
+
+</div>
+  <!-- Quadro 1 - Ficha de caracterização do zona de Intervenção -->
+  <div id="painel-tabela">
+        <table id="tabela-alto" border="1" cellpadding="8">
+             
+        <thead>
+            <th colspan="6">
+                <button onclick="fecharTabela()">X</button>
+                Plano Municipal de Redução de Riscos – Ilhéus
+            </th>
+        </thead>
+        <tbody>
+        <tr>
+        <td><strong>Nome</strong></td>
+        <td id="t-nome"></td>
+        <td><strong>Tipo</strong></td>
+        <td colspan="4" id="t-tipo"></td>
+        </tr>
+
+        <tr>
+        <td><strong>Data</strong></td>
+        <td id="t-data"></td>
+        <td><strong>Localidade</strong></td>
+        <td colspan="3" id="t-localidade"></td>
+        </tr>
+
+        <tr>
+        <td><strong>Endereço</strong></td>
+        <td colspan="4" id= "t-endereco"></td>
+        </tr>
+
+        <tr>
+        <td><strong>Latitude</strong></td>
+        <td  id="t-latitude"></td>
+        <td><strong>Longitude</strong></td>
+        <td  id="t-longitude"></td>
+        </tr>
+
+
+        <tr>
+        <td colspan="1"><strong>Síntese dos aspectos urbanos e ambientais:</strong></td>
+        <td colspan="5" id="t-sintese"></td>
+        </tr>
+
+        <tr>
+            <td colspan="1"><strong>Recomendações para o plano de contingência e atendimentos de emergência: </strong></td>
+            <td colspan="5" id="t-recomendacoes"></td>
+        </tr>
+
+        <tr>
+            <td colspan="1"><strong>Observações gerais sobre a localidade:</strong></td>
+            <td colspan="5" id="t-observacoes"></td>
+        </tr>
+
+
+    </tbody>
+        </table>
+    </div>
+
+<!-- Quadro. Ficha de caracterização do Setor de Risco -->
+<div id="painel-area">
+  <table id="tabela-area" border="1" cellpadding="8">
+    <thead>
+      <th colspan="8">
+        Plano Municipal de Redução de Riscos
+        <button onclick="fecharTabela()" style="float: left;">X</button>
+      </th>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="2"><strong>Município</strong></td>
+        <td  colspan="2" id="a-localidade"></td>
+        <td ><strong>Bairro/Alto</strong></td>
+        <td colspan="3" id="a-endereco"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Equipe</strong></td>
+        <td colspan="2" id="a-equipe"></td>
+        <td><strong>Data da Avaliação</strong></td>
+        <td colspan="3" id="a-data"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Denominação do Setor:</strong></td>
+        <td colspan="2" id="a-denominacao"></td>
+        <td><strong>Latitude:</strong></td>
+        <td id= "a-latitude"></td>
+        <td><strong> Longitude</strong></td>
+        <td id="a-longitude"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Referência:</strong></td>
+        <td colspan="6" id="a-referencia"></td>
+      </tr>
+      <tr>
+        <th colspan="8"><strong>Caracterização do Terreno e da Infraestrutura</strong></th>
+      </tr>
+
+      <tr>
+        <td colspan="4"><strong>Abastecimento de Água:</strong></td>
+        <td colspan="4"><strong>Esgotamento Sanitário: </strong></td>
+      </tr>
+
+      <tr>
+        <td>Regular</td>
+        <td>Irregular</td>
+        <td colspan="2">Inexistente</td>
+        <td >Canalizado até a rede</td>
+        <td>Fossa</td>
+        <td >Lançado na encosta</td>
+        <td>Lançado no canal</td>
+      </tr>
+
+      <tr>
+        <td id="a-regular"></td>
+        <td id="a-irregular"></td>
+        <td colspan="2"id="a-inexistente"></td>
+        <td  id="a-canalizado"></td>
+        <td id="a-fossa"></td>
+        <td id="a-lancadoEncosta"></td>
+        <td id="a-lancadoCanal"></td>
+      </tr>
+
+      <tr>
+        <th colspan="8"> Sistema de Drenagem Superficial:</th>
+      </tr>
+
+      <tr>
+        <td colspan="3"> Inexistente</td>
+        <td colspan="3"> Precário</td>
+        <td colspan="2"> Satisfatório</td>
+      </tr>
+
+      <tr>
+        <td colspan="3" id="a-inexistenteD"></td>
+        <td colspan="3" id="a-precarioD" ></td>
+        <td colspan="2" id ="a-satisfatorioD"></td>
+      </tr>
+
+      <tr>
+        <th colspan="8"> Sistema viário e acesso:</th>
+      </tr>
+
+      <tr>
+        <td colspan="2">Arterial</td>
+        <td>Coletora</td>
+        <td>Local</td>
+        <td colspan="2">Becos</td>
+        <td colspan="2">Caminhos</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-arterial"></td>
+        <td id="a-coletora"></td>
+        <td id="a-local"></td>
+        <td colspan="2" id="a-becos"></td>
+        <td colspan="2" id="a-caminhos"></td>
+      </tr>
+
+      <tr>
+        <th colspan="8"> Tipos de Revestimento:</th>
+      </tr>
+      
+      <tr>
+        <td colspan="2">Flexível</td>
+        <td>Rígido</td>
+        <td>Intertravado</td>
+        <td colspan="2">Paralelepípedo</td>
+        <td colspan="2">Não Pavimentado</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-flexivel"></td>
+        <td id="a-rigido"></td>
+        <td id="a-intertravado"></td>
+        <td colspan="2" id="a-paralelepipedo"></td>
+        <td colspan="2" id="a-npavimentado"></td>
+      </tr>
+
+      <tr>
+        <th colspan="8">Condições de acesso:</th>
+      </tr>
+
+      <tr>
+        <td colspan="2">Veicular</td>
+        <td colspan="2">Veicular 4x4</td>
+        <td colspan="2">Veicular 2 rodas</td>
+        <td colspan="2" >A pé</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-veicular"></td>
+        <td colspan="2" id="a-veicular4"></td>
+        <td colspan="2" id="a-veicular2"></td>
+        <td colspan="2" id="a-pe"></td>
+      </tr>
+
+      <tr>
+        <td colspan="4"><strong>Declividade da Encosta:</strong></td>
+        <td colspan="4" id="a-declividade"></td>
+      </tr>
+
+      <tr>
+        <td colspan="4"><strong>Inclinação do Talude:</strong></td>
+        <td colspan="4" id="a-inclinacao"></td>
+      </tr>
+
+      <tr>
+        <td colspan="4"><strong>Substrato rochoso (litologia, grau de alteração estrutural)</strong></td>
+        <td colspan="4" id="a-substrato"></td>
+      </tr>
+
+      <td colspan="4"><strong>Depósitos de Cobertura (Tipos, volume, etc)</strong></td>
+      <td colspan="4" id="a-depositos"></td>
+
+      <tr>
+        <th colspan="8">Indicativos de Movimentação</th>
+      </tr>
+
+      <tr>
+        <td colspan="2">Trincas no terreno</td>
+        <td colspan="2">Trincas na moradia</td>
+        <td colspan="2">Degraus e acabamento</td>
+        <td colspan="2">Inclinação de árvores</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-trincasTerreno"></td>
+        <td colspan="2" id="a-trincasMoradia"></td>
+        <td colspan="2" id="a-degraus"></td>
+        <td  colspan="2" id="a-inclinacaoArvore"></td>
+      </tr>
+
+      
+      <tr>
+        <td colspan="2">Inclinação de postes</td>
+        <td colspan="2">Inclinação de muros</td>
+        <td colspan="2">Muros e paredes deformadas</td>
+        <td colspan="2">Cicatriz de deslizamento</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-inclinacaoPoste"></td>
+        <td colspan="2" id="a-inclinacaoMuros"></td>
+        <td  colspan="2" id="a-muros"></td>
+        <td  colspan="2" id="a-cicatriz"></td>
+      </tr>
+
+      <tr>
+        <th colspan="8">Agentes Potencializadores</th>
+      </tr>
+
+      <tr>
+        <td colspan="2">Lançamento de águas servidas/esgoto</td>
+        <td colspan="2">Concentração de fluxo inadequada</td>
+        <td colspan="2">Fossas</td>
+        <td colspan="2"> Lixo/Entulho</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-lancamento"></td>
+        <td colspan="2" id="a-concentracao"></td>
+        <td colspan="2"  id="a-fossasAgente"></td>
+        <td colspan="2" id="a-lixo"></td>
+      </tr>
+
+      <tr>
+        <td colspan="2">Infraestrutura urbana inadequada</td>
+        <td colspan="2">Aterro/Bota fora</td>
+        <td colspan="2">Cortes verticalizados</td>
+        <td colspan="2"> Vegetação inadequada</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-infraestrutura"></td>
+        <td colspan="2"id="a-aterro"></td>
+        <td colspan="2" id="a-cortesVerticalizados"></td>
+        <td colspan="2" id="a-vegetacaoInadequada"></td>
+      </tr>
+
+      <tr>
+        <td colspan="2">Tubulação rompida (água)</td>
+        <td colspan="2">Tubulação rompida (esgoto)</td>
+        <td colspan="2">Rede de drenagem inadequada</td>
+        <td colspan="2"></td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-tubulacaoAgua"></td>
+        <td colspan="2"id="a-tubulacaoEsgoto"></td>
+        <td colspan="2" id="a-drenagemInadequada"></td>
+        <td colspan="2"></td>
+      </tr>
+
+      <tr>
+        <th colspan="8">Descrição dos Processos Geodinâmicos</th>
+      </tr>
+
+      <tr>
+        <td colspan="2">Quedas/Rolamento de blocos</td>
+        <td colspan="2">Ravina</td>
+        <td colspan="2">Alagamento</td>
+        <td colspan="2"> Erosão costeira</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-quedasRolamento"></td>
+        <td  colspan="2" id="a-ravina"></td>
+        <td  colspan="2" id="a-alagamento"></td>
+        <td  colspan="2" id="a-erosaoCosteira"></td>
+      </tr>
+
+      <tr>
+        <td colspan="2">Corridas</td>
+        <td colspan="2">Rastejo</td>
+        <td colspan="2">Voçoroca</td>
+        <td colspan="2"> Inundação</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-corridas"></td>
+        <td colspan="2" id="a-rastejo"></td>
+        <td colspan="2" id="a-vocoroca"></td>
+        <td colspan="2" id="a-inundacaoProcessos"></td>
+      </tr>
+
+      <tr>
+        <td colspan="2">Deslizamento rotacional</td>
+        <td colspan="2">Deslizamento translacional</td>
+        <td colspan="2">Enxurrada</td>
+        <td colspan="2"> Solapamento</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-deslizamentoRotacional"></td>
+        <td colspan="2" id="a-deslizamentoTranslacional"></td>
+        <td colspan="2" id="a-enxurrada"></td>
+        <td  colspan="2" id="a-solapamento"></td>
+      </tr>
+
+      <tr>
+        <td colspan="2">Subsidência</td>
+        <td colspan="2">Colapsos</td>
+        <td colspan="2"></td>
+        <td colspan="2"></td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-subsidencia"></td>
+        <td colspan="2" id="a-colapsos"></td>
+        <td colspan="2"></td>
+        <td  colspan="2" ></td>
+      </tr>
+
+      <tr>
+        <td colspan="4">Materiais Envolvidos:</td>
+        <td colspan="4" id="a-materiaisEnvolvidos"></td>
+      </tr>
+
+      <tr>
+        <th colspan="8">Dimensões previstas para os processos geológicos:</th>
+      </tr>
+
+      <tr>
+        <td colspan="2">< 5,0 m²</td>
+        <td colspan="2">5,0 – 10,0 m²</td>
+        <td colspan="2">1,0 – 2,0 m</td>
+        <td colspan="2">> 2,0 m</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-dimensaoGeo1"></td>
+        <td colspan="2" id="a-dimensaoGeo2"></td>
+        <td colspan="2" id="a-dimensaoGeo3"></td>
+        <td colspan="2" id="a-dimensaoGeo4" ></td>
+      </tr>
+
+      
+      <tr>
+        <th colspan="8">Dimensões previstas para os processos hidrológicos:</th>
+      </tr>
+
+      <tr>
+        <td colspan="2">< 5,0 m²</td>
+        <td colspan="2">5,0 – 10,0 m²</td>
+        <td colspan="2">1,0 – 2,0 m</td>
+        <td colspan="2">> 2,0 m</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-dimensaohidro1"></td>
+        <td colspan="2" id="a-dimensaohidro2"></td>
+        <td colspan="2" id="a-dimensaohidro3"></td>
+        <td colspan="2" id="a-dimensaohidro4" ></td>
+      </tr>
+
+      <tr>
+        <th colspan="8"> Caracterização da Vulnerabilidade</th>
+      </tr>
+
+      <tr>
+        <td colspan="4">Número de domicílios / edificações no setor:</td>
+        <td colspan="4" id="a-numdomicilios"></td>
+      </tr>
+
+       <tr>
+        <th colspan="8">Distância da encosta/Talude:</th>
+      </tr>
+
+      <tr>
+        <td colspan="2">< 2,0 m</td>
+        <td colspan="2">2,0 – 4,0 m</td>
+        <td colspan="2">4,0 – 6,0 m</td>
+        <td colspan="2">> 6,0 m</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-distanciaEncosta1"></td>
+        <td colspan="2" id="a-distanciaEncosta2"></td>
+        <td colspan="2" id="a-distanciaEncosta3"></td>
+        <td colspan="2" id="a-distanciaEncosta4" ></td>
+      </tr>
+
+      <tr>
+        <th colspan="8">Distância da margem do canal:</th>
+      </tr>
+
+      <tr>
+        <td colspan="2">< 1,0 m</td>
+        <td colspan="2">1,0 – 2,0 m</td>
+        <td colspan="2">2,0 – 3,0 m</td>
+        <td colspan="2">> 3,0 m</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-distanciamargem1"></td>
+        <td colspan="2" id="a-distanciamargem2"></td>
+        <td colspan="2" id="a-distanciamargem3"></td>
+        <td colspan="2" id="a-distanciamargem4" ></td>
+      </tr>
+
+      <tr>
+        <th colspan="8">Tipologia Construtiva</th>
+      </tr>
+
+      <tr>
+        <td colspan="2">Plástico – Madeira - Lata</td>
+        <td colspan="2">Madeira</td>
+        <td colspan="2">Alvenaria</td>
+        <td colspan="2">Mista</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-plastMadLa"></td>
+        <td colspan="2" id="a-madeira"></td>
+        <td colspan="2"id="a-alvenaria"></td>
+        <td colspan="2" id="a-mista" ></td>
+      </tr>
+
+      <tr>
+        <th colspan="8">Conservação estrutural</th>
+      </tr>
+
+      <tr>
+      <td colspan="2">Baixa</td>
+      <td colspan="3">Média</td>
+      <td colspan="3">Alta</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" id="a-tipoBaixa"></td>
+        <td colspan="3" id="a-tipoMedia"></td>
+        <td colspan="3" id="a-tipoAlta"></td>
+      </tr>
+
+      <tr>
+        <th colspan="8">Observações</th>
+      </tr>
+
+      <tr>
+        <td colspan="8" id="a-observacoes"></td>
+      </tr>
+
+
+    </tbody>
+  </table>
+
+
+</div>
+ 
+ <div id="painel-quadro5">
+  <table id="tabela-quadro5" border="1" cellpadding="8">
+
+    <thead>
+      <tr>
+        <th colspan="6">
+          <button onclick="fecharTabela()" style="float: left;">X</button>
+          Plano Municipal de Redução de Riscos – Ilhéus
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td><strong>Município</strong></td>
+        <td id="q-municipio"></td>
+        <td><strong>Bairro</strong></td>
+        <td colspan="3" id="q-bairro"></td>
+      </tr>
+
+      <tr>
+        <td><strong>Equipe</strong></td>
+        <td id="q-equipe"></td>
+        <td><strong>Data Avaliação</strong></td>
+        <td colspan="3" id="q-data"></td>
+      </tr>
+
+      <tr>
+        <td><strong>Denominação do Setor</strong></td>
+        <td id="q-denominacao"></td>
+        <td><strong>Latitude</strong></td>
+        <td id="q-latitude"></td>
+        <td><strong>Longitude</strong></td>
+        <td id="q-longitude"></td>
+      </tr>
+
+      <tr>
+        <td><strong>Referência</strong></td>
+        <td colspan="5" id="q-referencia"></td>
+      </tr>
+
+      <tr>
+        <td><strong>Carta do Caderno de Mapas</strong></td>
+        <td colspan="5" id="q-carta"></td>
+      </tr>
+
+      <tr>
+        <td><strong>Observações</strong></td>
+        <td colspan="5" id="q-observacoes"></td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>
+
+<div id="painel-intervencoes">
+  <table id="tabela-intervencoes" border="1" cellpadding="8">
+  <thead>
+      <tr>
+        <th colspan="6">
+          <button onclick="fecharTabela()">X</button>
+          Plano Municipal de Redução de Riscos – Ilhéus (2024-2025)
+        </th>
+      </tr>
+      <tr>
+        <th colspan="6">
+          Quadro de Intervenções do Setor de Risco 
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td colspan="1"><strong>Município:</strong></td>
+        <td  colspan= "2" id="i-municipio"></td>
+        <td><strong>Bairro/Distrito:</strong></td>
+        <td colspan="2" id="i-bairro"></td>
+      </tr>
+
+      <tr>
+        <td ><strong>Equipe</strong></td>
+        <td colspan="2" id="i-equipe"></td>
+        <td><strong>Data Avaliação</strong></td>
+        <td colspan="2" id="i-data"></td>
+      </tr>
+
+      <tr>
+        <td><strong>Denominação do Setor</strong></td>
+        <td colspan="2" id="i-denominacao"></td>
+        <td><strong>Coordenadas (GPS):</strong></td>
+        <td colspan="2" id="i-coordenadas"></td>
+      </tr>
+
+      <tr>
+        <td><strong>Referências:</strong></td>
+        <td colspan="5" id="i-referencias"></td>
+      </tr>
+
+      <tr>
+        <td><strong>Número de Domicílios/Edificações:</strong></td>
+        <td colspan="5" id="i-ndomicilios"></td>
+      </tr>
+
+      <tr>
+        <th colspan="6">Classificação do Risco</th>
+      </tr>
+      
+      <tr>
+        <td colspan="2"><strong>Grau de Risco:</strong></td>
+        <td colspan="4" id="i-grau"></td>
+      </tr>
+
+      <tr>
+        <td colspan="2"><strong>Há necessidade de ações emergenciais? </strong></td>
+        <td colspan="4" id="i-necessidades"></td>
+      </tr>
+
+      <tr>
+        <th colspan="6">Observações Adicionais</th>
+      </tr>
+    
+      <tr>
+        <td colspan="6" id="i-observacoesAdicionais"></td>
+      </tr>
+
+      <tr>
+        <th colspan="6">Intervenções Estruturais</th>
+      </tr>
+
+      <tr>
+        <td colspan="2"> <strong>Indicação de Intervenção</strong></td>
+        <td colspan="4"><strong>Dimensões</strong></td>
+      </tr>
+
+      <tr>
+        <td colspan="2" >Demolição de edificações:</td>
+        <td colspan="3" id="i-demolicao"></td>
+        <td>m²</td>
+      </tr>
+
+      <tr>
+        <td colspan="2">Serviço de limpeza com remoção de plantas:</td>
+        <td colspan="3" id="i-servicoLimpeza"></td>
+        <td>m²</td>
+      </tr>
+
+      <tr>
+        <td colspan="2">Muro de Arrimo com blocos de concreto estrutural:</td>
+        <td colspan="3" id="i-MuroArimo"></td>
+        <td>m²</td>
+      </tr>
+
+      <tr>
+        <td colspan="2">Solo Grampeado Verde (SBN):</td>
+        <td colspan="3" id="i-SBN"></td>
+        <td>m²</td>
+      </tr>
+
+      <tr>
+        <th colspan="6">Observações</th>
+      </tr>
+
+      <tr>
+        <td colspan="6" id="i-observacoes"></td>
+      </tr>
+
+      <tr>
+        <td colspan="3"><strong>Indicação de Intervenção</strong></td>
+        <td>Unid.</td>
+        <td colspan="2"><strong>Preço</strong></td>
+      </tr>
+
+      <tr>
+        <td colspan="3">Custo Estimado das Obras</td>
+        <td>R$</td>
+        <td colspan="2" id="i-custoEstimado"></td>
+      </tr>
+
+      <tr>
+        <td colspan="3">Projeto executivo, levantamentos, ensaios e estudos (5%)</td>
+        <td>R$</td>
+        <td colspan="2" id="i-projetoExecutivo"></td>
+      </tr>
+
+      <tr>
+        <td colspan="3">Serviços preliminares (limpeza do terreno, tapume e canteiro) (4%)</td>
+        <td>R$</td>
+        <td colspan="2" id="i-servicosPreliminares"></td>
+      </tr>
+
+      <tr>
+        <td colspan="3">Equipamentos de monitoramento e alerta (1%)</td>
+        <td>R$</td>
+        <td colspan="2" id="i-equipamentosMonitoramento"></td>
+      </tr>
+
+      <tr>
+        <td colspan="3">Ações sociais e trabalho social (3%)</td>
+        <td>R$</td>
+        <td colspan="2" id="i-acoesSociais"></td>
+      </tr>
+
+      <tr>
+        <td colspan="3">Avaliação pós-intervenção e ocupação (0,5%)</td>
+        <td>R$</td>
+        <td colspan="2" id="i-avaliacaoPos"></td>
+      </tr>
+
+      <tr>
+        <td colspan="3"><strong>SubTotal</strong></td>
+        <td><strong>R$</strong></td>
+        <td colspan="2" id="i-subTotal"><strong></strong></td>
+      </tr>
+
+      <tr>
+        <td colspan="3">BDI(26,80%)</td>
+        <td>R$</td>
+        <td colspan="2" id="i-bdi"></td>
+      </tr>
+
+      <tr>
+        <td colspan="3"><strong>Custo Total</strong></td>
+        <td><strong>R$</strong></td>
+        <td colspan="2" id="i-custoTotal"><strong></strong></td>
+      </tr>
+
+    </tbody>
+  
+  </table>
+</div>
+
+<div id="planilha-orcamentoLim">    
+    <table id="tabela-orcamentoLim" border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th colspan="6">
+                    <button onclick="fecharTabela()" style="float: right;">X</button>
+                    <button onclick="baixarArquivo()">Baixar Planilha Orçamentaria Completa</button>
+                    Plano Municipal de Redução de Riscos – Ilhéus (2024-2025)
+                </th>
+            </tr>
+            <tr>
+                <th colspan="11">
+                    Planilha Orçamentária - Alto do Carvalho
+                </th>
+            </tr>
+            <tr class="cabecalho-colunas">
+                <th>ITEM</th>
+                <th>DESCRIÇÃO DO ITEM</th>
+                <th>SOMA PARCIAL</th>
+                <th>PARCIAL (%)</th>
+                <th>SOMA</th>
+            </tr>
+        </thead>
+        
+        <tbody id="corpo-tabela-orcamentoLim">
+            </tbody>
+    </table>
+</div>
+
+<div id="planilha-orcamentoRisco">    
+    <table id="tabela-orcamentoRisco" border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th colspan="11">
+                    <button onclick="fecharTabela()" style="float: right;">X</button>
+                    Plano Municipal de Redução de Riscos – Ilhéus (2024-2025)
+                </th>
+            </tr>
+            <tr>
+                <th colspan="11">
+                    Planilha Orçamentária - Alto do Carvalho
+                </th>
+            </tr>
+            <tr class="cabecalho-colunas">
+                <th>CÓDIGO ALTO</th>
+                <TH>CÓDIGO ORSE</TH>
+                <th>ITEM</th>
+                <th>DESCRIÇÃO DO ITEM</th>
+                <th>UNID</th>
+                <th>QUANT</th>
+                <th>PREÇO UNIT</th>
+                <th>VALOR PARCIAL</th>
+                <th>SOMA PARCIAL</th>
+                <th>PARCIAL (%)</th>
+                <th>SOMA</th>
+            </tr>
+        </thead>
+        
+        <tbody id="corpo-tabela-orcamentoRisco">
+            </tbody>
+    </table>
+</div>
+
+<div id="planilha-orcamentoArea">    
+    <table id="tabela-orcamentoArea" border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th colspan="11">
+                    <button onclick="fecharTabela()" style="float: right;">X</button>
+                    Plano Municipal de Redução de Riscos – Ilhéus (2024-2025)
+                </th>
+            </tr>
+            <tr>
+                <th colspan="11">
+                    Planilha Orçamentária - Alto do Carvalho
+                </th>
+            </tr>
+            <tr class="cabecalho-colunas">
+                <th>CÓDIGO ALTO</th>
+                <th>ITEM</th>
+                <th>DESCRIÇÃO DO ITEM</th>
+                <th>SOMA</th>
+            </tr>
+        </thead>
+        
+        <tbody id="corpo-tabela-orcamentoArea">
+            </tbody>
+    </table>
+</div>
+
+    <!-- Leaflet JS  -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="js/main.js"></script>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2026 - Brenda Castro da Silva</p>
+    </footer>
+</body>
+
+
+</html>
