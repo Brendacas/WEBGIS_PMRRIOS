@@ -1,0 +1,308 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /*  trava scroll da página */
+}
+
+#app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  
+}
+
+#map {
+    height: 100vh;
+    margin-left: 300px; /* Mesma largura da sidebar */
+    transition: 0.4s;   /* Para suavizar quando fechar o menu */
+}
+
+#painel-tabela,
+#painel-area,
+#painel-quadro5,
+#painel-intervencoes,
+#planilha-orcamentoLim,
+#planilha-orcamentoArea,
+#planilha-orcamentoRisco {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 45%;
+  background: transparent;
+  /*border-left: 1px solid #ccc;*/
+  overflow-y: auto;
+
+  display: none;   
+  z-index: 1000;
+}
+
+#app.com-tabela #painel-tabela {
+  display: block !important;
+  flex: 0 0 45% !important;
+  width: 45% !important;
+}
+
+#app.com-area #painel-area {
+  display: block !important;
+  flex: 0 0 45% !important;
+  width: 45% !important;
+}
+
+#app.com-quadro #painel-quadro5 {
+  display: block !important;
+  flex: 0 0 45% !important;
+  width: 45% !important;
+}
+
+#app.com-tabelaIntervencao #painel-intervencoes {
+  display: block !important;
+  flex: 0 0 45% !important;
+  width: 45% !important;
+}
+
+#app.com-OrcamentoLim #planilha-orcamentoLim{
+  display: block !important;
+  flex: 0 0 55% !important;
+  width: 58% !important;
+}
+#app.com-OrcamentoArea #planilha-orcamentoArea{
+  display: block !important;
+  flex: 0 0 55% !important;
+  width: 58% !important;
+}
+#app.com-OrcamentoRisco #planilha-orcamentoRisco{
+  display: block !important;
+  flex: 0 0 55% !important;
+  width: 58% !important;
+}
+
+/* =========================
+   TABELAS (PADRÃO GERAL)
+========================= */
+
+#tabela-alto,
+#tabela-area,
+#tabela-quadro5,
+#tabela-intervencoes,
+#tabela-orcamentoLim,
+#tabela-orcamentoArea,
+#tabela-orcamentoRisco {
+  background: white;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* Cabeçalho */
+#tabela-alto th,
+#tabela-area th,
+#tabela-quadro5 th,
+#tabela-intervencoes th,
+#tabela-orcamentoLim th,
+#tabela-orcamentoArea th,
+#tabela-orcamentoRisco th{
+  background: #f0f0f0;
+  text-align: center;
+  padding: 6px;
+  font-size: 15px;
+}
+
+/* Células */
+#tabela-alto td,
+#tabela-area td,
+#tabela-quadro5 td,
+#tabela-intervencoes td,
+#tabela-orcamentoLim td,
+#tabela-orcamentoArea td,
+#tabela-orcamentoRisco td{
+  /*border: 1px solid #ddd;*/
+  padding: 6px;
+  vertical-align: top;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: justify;
+}
+
+/* Primeira coluna (rótulos) */
+#tabela-quadro5 td:first-child ,
+#tabela-intervencoes td:first-child{
+  width: 120px;
+}
+
+/* Textos longos */
+#t-sintese,
+#t-recomendacoes,
+#t-observacoes,
+#a-observacoes,
+#q-observacoes,
+#i-observacoes,
+#i-observacoesAdicionais {
+  text-align: justify;
+}
+
+/* Listas */
+#tabela-alto ul,
+#tabela-area ul,
+#tabela-quadro5 ul,
+#tabela-intervencoes ul,
+#tabela-orcamentoLim ul,
+#tabela-orcamentoArea ul,
+#tabela-orcamentoRisco ul{
+  margin: 6px 0 6px 18px;
+  padding: 0;
+}
+
+/* Botão fechar */
+#tabela-alto button,
+#tabela-area button,
+#tabela-quadro5 button,
+#tabela-intervencoes button,
+#tabela-orcamentoLim button,
+#tabela-orcamentoArea button,
+#tabela-orcamentoRisco button{
+  float: left;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+
+/* ================================
+   HEADER
+================================ */
+.sidebar-header {
+    padding: 12px 15px;
+    background-color: #2c3e50;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+/* ================================
+   CONTEÚDO
+================================ */
+.sidebar-content {
+    padding: 0;
+}
+
+/* ================================
+   MENU
+================================ */
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-list li {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.menu-list li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    display: block;
+}
+
+/* Hover suave */
+.menu-list li:hover {
+    background-color: #eef2f5;
+}
+
+/* ================================
+   SIDEBAR
+================================ */
+.sidebar {
+    height: 100%;
+    width: 300px;
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: 0.4s;
+    box-shadow: 2px 0 6px rgba(0,0,0,0.25);
+}
+
+/* ================================
+   CAMADAS (UNIFORME COM MENU)
+================================ */
+#camadas-container {
+    padding: 10px 15px;
+    background-color: #f1f3f5;
+    border-top: 1px solid #e0e0e0;
+}
+
+#camadas-container .leaflet-control-layers {
+    position: static !important;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+}
+
+/* Títulos e listas internas do Leaflet */
+#camadas-container label {
+    font-weight: 400;
+    font-size: 14px;
+}
+
+#camadas-container input {
+    margin-right: 6px;
+}
+
+/* ================================
+   AJUSTES FINOS
+================================ */
+.leaflet-control-layers-list {
+    margin: 0;
+    padding: 0;
+}
+
+.leaflet-control-layers-overlays label,
+.leaflet-control-layers-base label {
+    padding: 4px 0;
+    display: block;
+}
+.popup-menu {
+    min-width: 180px;
+}
+
+.btn-popup {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    background: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 13px;
+    transition: background 0.3s;
+}
+
+.btn-popup:hover {
+    background: #34495e;
+}
+
+/* Isso aplica a seta grande e centralizada às canaletas */
+.linha-seta-drenagem {
+    marker-mid: url(#setaDrenagem);
+    marker-end: url(#setaDrenagem);
+}
+.linha-seta-lixo{
+  marker-mid: url(#setaLixo);
+  marker-end: url(#setaLixo);
+}
+.linha-seta-esgoto{
+  marker-mid: url(#setaEsgoto);
+  marker-end: url(#setaEsgoto);
+}

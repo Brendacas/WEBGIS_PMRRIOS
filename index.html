@@ -871,6 +871,87 @@
     </table>
 </div>
 
+<div id="painel-inundacao">
+  <table id="painel-inundacao" border="1" cellpadding="8">
+  <thead>
+      <tr>
+        <th colspan="6">
+          <button onclick="fecharTabela()">X</button>
+          Plano Municipal de Redução de Riscos – Ilhéus (2024-2025)
+        </th>
+      </tr>
+      <tr>
+        <th colspan="6">
+          Ficha de Caracterização da Zona de Intervenção 
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Tipo</strong></td>
+        <td id="t-nome"></td>
+        <td><strong>Data</strong></td>
+        <td colspan="4" id="t-tipo"></td>
+        </tr>
+
+        <tr>
+        <td><strong>Nome</strong></td>
+        <td id="t-data"></td>
+        <td><strong>Localidade</strong></td>
+        <td colspan="3" id="t-localidade"></td>
+        </tr>
+
+        <tr>
+        <td><strong>Endereço</strong></td>
+        <td colspan="2" id= "t-endereco"></td>
+        <td><strong>Latitude</strong></td>
+        <td  id="t-latitude"></td>
+        <td><strong>Longitude</strong></td>
+        <td  id="t-longitude"></td>
+        </tr>
+
+
+        <tr>
+        <td colspan="1"><strong>Síntese dos aspectos urbanos e ambientais:</strong></td>
+        <td colspan="5" id="t-sintese"></td>
+        </tr>
+
+        <tr>
+          <td><strong>ID DO SETOR</strong></td>
+          <td><strong>TIPO DE PROCESSOS</strong></td>
+          <td><strong>Nº EDIFICAÇÕES SEM RISCO</strong></td>
+          <td><strong>Nº EDIFICAÇÕES RISCO MÉDIO(R2)</strong></td>
+          <td><strong>Nº EDIFICAÇÕES RISCO ALTO(R3)</strong></td>
+          <td><strong>Nº EDIFICAÇÕES RISCO MUITO ALTO(R4)</strong></td>
+        </tr>
+      
+        <tr>
+          <td id="inund-idSetor"></td>
+          <td id="inund-tipoProc"></td>
+          <td id="inund-semRisco"><</td>
+          <td id="inund-riscoMedio"></td>
+          <td id="inund-riscoAlto"></td>
+          <td id="inund-riscoMAlto"></td>
+        </tr>
+
+        <tr>
+          <td>Observações Gerais sobre a Localidade</td>
+          <td id="inund-obs"></td>
+        </tr>
+      
+        <tr>
+          <td>Unidades Sociais</td>
+          <td id="inund-unidSociais"></td>
+        </tr>
+
+        <tr>
+          <td>Histórico de Ocorrências</td>
+        </tr>
+
+    </tbody>
+  </table>
+</div>
+
     <!-- Leaflet JS  -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -879,7 +960,62 @@
     <footer class="footer">
         <p>© 2026 - Brenda Castro da Silva</p>
     </footer>
+
+    //Estilização das camadas
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <pattern id="dotPattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.5" fill="#27ae60" />
+    </pattern>
+
+    <pattern id="stripePattern" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="8" style="stroke:#2980b9; stroke-width:3" />
+    </pattern>
+
+    <pattern id="stripePatternR" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="2" y2="8" style="stroke:#e47b1a; stroke-width:3" />
+    </pattern>
+
+    <pattern id="quadradosPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect width="20" height="20" fill="rgba(255,255,255,0.1)" />
+      
+      <rect x="0" y="0" width="10" height="10" fill="#fc6aa7" />
+      
+      <rect x="10" y="10" width="10" height="10" fill="#fc6aa7" />
+    </pattern>
+  </defs>
+</svg>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <marker id="setaDrenagem" 
+            viewBox="0 0 10 10" 
+            refX="5" refY="5" 
+            markerWidth="8" markerHeight="8"
+            orient="auto" 
+            markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3498db" />
+    </marker>
+        <marker id="setaLixo" 
+            viewBox="0 0 10 10" 
+            refX="5" refY="5" 
+            markerWidth="8" markerHeight="8"
+            orient="auto" 
+            markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#992000" />
+    </marker>
+            <marker id="setaEsgoto" 
+            viewBox="0 0 10 10" 
+            refX="5" refY="5" 
+            markerWidth="8" markerHeight="8"
+            orient="auto" 
+            markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#79591b" />
+    </marker>
+
+  </defs>
+</svg>
 </body>
+
 
 
 </html>
