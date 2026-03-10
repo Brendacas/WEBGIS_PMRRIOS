@@ -1,0 +1,11 @@
+{
+"type": "FeatureCollection",
+"name": "ReprojetadoAlto_Alto do Carvalho",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"xy_coordinate_resolution": 1e-15,
+"features": [
+{ "type": "Feature", "properties": { "fid": 1, "FID_": 0, "Entity": "LWPolyline", "Layer": "REDE ESGOTO 150", "LyrHandle": "10E9AB", "Color": 12, "Linetype": "FLUXO", "Elevation": 0.0, "LineWt": 25, "RefName": null, "VALOR": null, "CIDADE": null, "UN": null, "BAIRRO_COD": null, "SETOR": 0, "QUADRA": 0, "ESCALA": null, "MES_ANO": null, "NUM": 0, "00_00": null, "Id": 0, "Alto": "Alto do Carvalho", "Bairro": "Esperança", "Area_m2": 32159.468, "Perimetro": 738.706 }, "geometry": { "type": "MultiLineString", "coordinates": [ [ [ -39.051656685516875, -14.786273422886344, 0.0 ], [ -39.051555327214977, -14.786630652021296, 0.0 ], [ -39.051041576661582, -14.78648823445433, 0.0 ] ] ] } },
+{ "type": "Feature", "properties": { "fid": 2, "FID_": 0, "Entity": "LWPolyline", "Layer": "REDE ESGOTO 150", "LyrHandle": "10E9AB", "Color": 12, "Linetype": "FLUXO", "Elevation": 0.0, "LineWt": 25, "RefName": null, "VALOR": null, "CIDADE": null, "UN": null, "BAIRRO_COD": null, "SETOR": 0, "QUADRA": 0, "ESCALA": null, "MES_ANO": null, "NUM": 0, "00_00": null, "Id": 0, "Alto": "Alto do Carvalho", "Bairro": "Esperança", "Area_m2": 32159.468, "Perimetro": 738.706 }, "geometry": { "type": "MultiLineString", "coordinates": [ [ [ -39.051449860751923, -14.787008326757361, 0.0 ], [ -39.051555327214977, -14.786630652021296, 0.0 ] ] ] } },
+{ "type": "Feature", "properties": { "fid": 3, "FID_": 0, "Entity": "LWPolyline", "Layer": "REDE ESGOTO 150", "LyrHandle": "10E9AB", "Color": 12, "Linetype": "FLUXO", "Elevation": 0.0, "LineWt": 25, "RefName": null, "VALOR": null, "CIDADE": null, "UN": null, "BAIRRO_COD": null, "SETOR": 0, "QUADRA": 0, "ESCALA": null, "MES_ANO": null, "NUM": 0, "00_00": null, "Id": 0, "Alto": "Alto do Carvalho", "Bairro": "Esperança", "Area_m2": 32159.468, "Perimetro": 738.706 }, "geometry": { "type": "MultiLineString", "coordinates": [ [ [ -39.052781285099215, -14.787433795480533, 0.0 ], [ -39.052778644240703, -14.787422889320565, 0.0 ] ], [ [ -39.052733012846865, -14.787237218855433, 0.0 ], [ -39.052599547735063, -14.786898007931004, 0.0 ] ] ] } }
+]
+}
