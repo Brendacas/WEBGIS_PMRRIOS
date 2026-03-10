@@ -1,0 +1,88 @@
+<div id="painel-inundacao">
+  <table id="painel-inundacao" border="1" cellpadding="8">
+  <thead>
+      <tr>
+        <th colspan="8">
+          <button onclick="fecharTabela()">X</button>
+          Plano Municipal de Redução de Riscos – Ilhéus (2024-2025)
+        </th>
+      </tr>
+      <tr>
+        <th colspan="8">
+          Ficha de Caracterização da Zona de Intervenção 
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Tipo</strong></td>
+        <td colspan="2" id="t-nome"></td>
+        <td><strong>Data</strong></td>
+        <td colspan="4" id="t-tipo"></td>
+        </tr>
+
+        <tr>
+        <td><strong>Nome</strong></td>
+        <td colspan="2" id="t-data"></td>
+        <td><strong>Localidade</strong></td>
+        <td colspan="4" id="t-localidade"></td>
+        </tr>
+
+        <tr>
+        <td><strong>Endereço</strong></td>
+        <td colspan="2" id= "t-endereco"></td>
+        <td><strong>Latitude</strong></td>
+        <td  id="t-latitude"></td>
+        <td><strong>Longitude</strong></td>
+        <td  id="t-longitude"></td>
+        </tr>
+
+
+        <tr>
+        <td colspan="1"><strong>Síntese dos aspectos urbanos e ambientais:</strong></td>
+        <td colspan="5" id="t-sintese"></td>
+        </tr>
+
+        <tr>
+          <td><strong>ID DO SETOR</strong></td>
+          <td><strong>TIPO DE PROCESSOS</strong></td>
+          <td><strong>Nº EDIFICAÇÕES SEM RISCO</strong></td>
+          <td><strong>Nº EDIFICAÇÕES RISCO MÉDIO(R2)</strong></td>
+          <td><strong>Nº EDIFICAÇÕES RISCO ALTO(R3)</strong></td>
+          <td><strong>Nº EDIFICAÇÕES RISCO MUITO ALTO(R4)</strong></td>
+        </tr>
+      
+        <tr>
+          <td id="inund-idSetor"></td>
+          <td id="inund-tipoProc"></td>
+          <td id="inund-semRisco"><</td>
+          <td id="inund-riscoMedio"></td>
+          <td id="inund-riscoAlto"></td>
+          <td id="inund-riscoMAlto"></td>
+        </tr>
+
+        <tr>
+          <td>Observações Gerais sobre a Localidade</td>
+        </tr>
+        <tr>
+            <td id="inund-obs"></td>
+        </tr>
+      
+        <tr>
+          <td>Unidades Sociais</td>
+        </tr>
+
+        <tr>
+            <td id="inund-unidSociais"></td>
+        </tr>
+        <tr>
+          <td>Histórico de Ocorrências</td>
+        </tr>
+
+        <tr>
+            <td id="inund-historico"></td>
+        </tr>
+
+    </tbody>
+  </table>
+</div>
