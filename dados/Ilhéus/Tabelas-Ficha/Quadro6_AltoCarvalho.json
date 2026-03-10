@@ -1,0 +1,18 @@
+{
+  "municipio": "Ilhéus - BA",
+  "bairro": "Esperança/Alto do Carvalho",
+  "equipe": "PMRR Ilhéus",
+  "data": "20/04/2024",
+  "denominacao": "A3",
+  "latitude": "14º 47’ 13.69” S ",
+  "longitude": "39º 3’ 7.42” O ",
+  "referencia": "Central de Abastecimento de Ilhéus",
+  "carta": {
+    "itens": [
+      "Neste documento, foram evidenciadas as condições de risco devido a movimentos de massa e erosão associada à inundação;",
+      "No mesmo documento, foram discutidas medidas estruturais para o Alto do Carvalho, que além de dar melhor condição de vida aos moradores, tem influência direta na mitigação do risco ao proteger ou evitar a evidência de fatores deflagradores de movimentos de massa;",
+      "Desta forma, a restauração de uma rede de esgotamento sanitário, rede de canaletas no entorno do talude, pequenas obras de arrimo nos fundos dos lotes, zeladoria do terreno com a retirada de resíduos lançados e direcionamento das águas para o local seguro, podem indicar uma melhoria substancial no grau de risco da área;"
+  
+    ]},
+  "observacoes": "Corrigir o sistema de drenagem local com a instalação de canaletas para coleta das águas, regularização do terreno para melhor eficiência do processo."
+}

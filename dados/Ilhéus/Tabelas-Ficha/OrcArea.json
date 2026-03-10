@@ -1,0 +1,30 @@
+[
+    {
+        "CODIGO_ALTO": "ESPCAR_A1S1R3",
+        "CODIGO_ORSE": null,
+        "ITEM": "1",
+        "DESCRIÇÃO DO ITEM": "Setor de Risco A1S1R3 (Contenções e Demolições)",
+        "UNID": null,
+        "QUANT": 0.0,
+        "PRECO_UNIT": "-",
+        "Valor Parcial": "-",
+        "soma_parcial": "-",
+        "Parcial (%)": null,
+        "Soma": "R$ 386.572,95",
+        "(%)": 0.2028539465
+    },
+    {
+        "CODIGO_ALTO": "ESPCAR_A1S2R4",
+        "CODIGO_ORSE": null,
+        "ITEM": "2",
+        "DESCRIÇÃO DO ITEM": "Setor de Risco A1S2R4 (Contenções e Demolições)",
+        "UNID": null,
+        "QUANT": 0.0,
+        "PRECO_UNIT": "-",
+        "Valor Parcial": "-",
+        "soma_parcial": "-",
+        "Parcial (%)": null,
+        "Soma": "R$ 743.321,27",
+        "(%)": 0.3900574345
+    }
+]
