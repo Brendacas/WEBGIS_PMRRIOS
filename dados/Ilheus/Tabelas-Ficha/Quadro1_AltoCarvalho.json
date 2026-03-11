@@ -1,0 +1,29 @@
+{
+  "nome": "Alto do Carvalho",
+  "tipo": "Ficha Geral",
+  "data": "22/05/2024",
+  "localidade": "Ilhéus-BA",
+  "endereco": "Acesso Av. Ubaitaba",
+  "latitude": "14º 47’ 17.7” S ",
+  "longitude": "39º 3’ 07.5” O ",
+  "sintese": {
+    "intro": "O Alto do Carvalho é um adensamento urbano localizado em um dos bairros da cidade de Ilhéus onde o processo de ocupação se deu de forma desordenada, sobre uma área de extração de rochas para a construção civil. A ocupação se deu sobre área fragilizada e se expandiu por todo o entorno, superior e inferior, de uma área com inclinação crítica em ambas as faces do morro. Com isso, algumas áreas foram fragilizadas pelo processo de antropização, como cortes irregulares, supressão vegetal e concentração das águas de chuvas. Outros fatores tornam o Alto do Amparo como uma área crítica, destacando:",
+    "itens": [
+      "ocupação em áreas com alta declividade com cortes (90º) e lançamento de material solto a jusante;",
+      "lançamento de resíduos sólidos ou resíduos de construção civil como material de lastro;",
+      "rede de saneamento (esgotos ou água servida) danificadas ou com dimensionamento insuficiente;",
+      "saneamento ineficiente, induzindo ao morador pelo lançamento de forma inadequada diretamente so- bre as encostas;",
+      "rede de água potável frágil e que pode desencadear problemas maiores;",
+      "presença de vegetação incompatível com o tipo de relevo, vulnerabilizando a encosta;",
+      "redirecionamento e concentração das águas pluviais diretamente sobre encostas com alta declividade, aumentando os fatores geradores de movimentos de massa."
+    ],
+    "conclusão": "A vistoria realizada tem a intenção de identificar e caracterizar o risco das áreas, e delimita-las dentro dos setores de intervenção, indicando ainda as posições de maior fragilidade. Tais informações são importantes para discretizar os processos desencadeadores de movimentos de massa e, com isso, indicar possíveis soluções associadas que aumentem o grau de segurança."
+    },
+  "recomendacoes" : [
+    "Instalação de rede pluviométrica automática integrada a rede Cemaden, Defesa civil municipal e Nudec local;",
+    "Capacitação em emergência da população e dos membros da Nudec local;",
+    "Programa de zeladoria das encostas, com limpeza de resíduos sólidos, poda de vegetação e identificação de problemas nas redes públicas de água e esgoto;",
+    "Desenvolvimento de uma rota de fuga em situações de emergência, garantindo que ela tenha condi- ções de acessibilidade, iluminação emergencial e não tenha obstáculos."
+  ],
+  "observacoes": "Comunidade muito receptiva e mobilizada para o PMRR."
+}
