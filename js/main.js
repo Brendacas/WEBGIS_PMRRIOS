@@ -1,4 +1,5 @@
-
+const baseURL = window.location.pathname.split('/')[1];
+const basePath = baseURL ? `/${baseURL}/` : '/';
 // MAPA BASE
 const map = L.map('map').setView([-14.8, -39.0], 12);
 
@@ -429,7 +430,7 @@ listaDeAltos.forEach(alto => {
 });
 // Preencher tabela
 function carregarTabela(nomeArquivo) {
-  const caminho = `dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
+  const caminho = `${basePath}dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
