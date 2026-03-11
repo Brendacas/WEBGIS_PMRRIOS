@@ -429,7 +429,7 @@ listaDeAltos.forEach(alto => {
 });
 // Preencher tabela
 function carregarTabela(nomeArquivo) {
-  const caminho = `/dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
+  const caminho = `dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
