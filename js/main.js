@@ -199,7 +199,7 @@ function carregarAlto({ arquivo, nomeAlto }) {
                 { color: "#FF8C69", weight: 4, fill: true, fillOpacity: 0.1 }, 
                 camadasGlobais.limites,
                 menuSelecaoTabelasLimite
-                //criarInteracaoComMidia("dados/Ilhéus/Fotos", carregarTabelaIntervencao) 
+                //criarInteracaoComMidia("dados/Ilheus/Fotos", carregarTabelaIntervencao) 
             );
             processarCamada(
               f=> comparaNome(f.properties.AreaInundacao),
@@ -361,7 +361,7 @@ function carregarAlto({ arquivo, nomeAlto }) {
                 { color: "#CCCC00", fillOpacity: 0.2, weight: 2 }, 
                 camadasGlobais.areaPesquisa,
                menuSelecaoTabelasArea 
-                //criarInteracaoComMidia("dados/Ilhéus/Fotos", carregarQuadro)
+                //criarInteracaoComMidia("dados/Ilheus/Fotos", carregarQuadro)
             );
             processarCamada(
                 f => f.properties.grau_risco === "Risco Médio (R2)",
@@ -384,14 +384,14 @@ function carregarAlto({ arquivo, nomeAlto }) {
                 { color: "#CC0000", weight: 2 },
                 camadasGlobais.risco3,
                 menuSelecaoTabelas 
-                //criarInteracaoComMidia("dados/Ilhéus/Fotos", carregarTabelaArea) 
+                //criarInteracaoComMidia("dados/Ilheus/Fotos", carregarTabelaArea) 
             );
             processarCamada(
                 f => f.properties.Grau_Risco === "Muito Alto (R4)",
                 { color: "#9900CC", weight: 2 },
                 camadasGlobais.risco4,
                 menuSelecaoTabelas
-                //criarInteracaoComMidia("dados/Ilhéus/Fotos", carregarTabelaArea) 
+                //criarInteracaoComMidia("dados/Ilheus/Fotos", carregarTabelaArea) 
             );
         })
         .catch(err => console.error("Erro no GeoJSON:", err));
@@ -405,10 +405,10 @@ function baixarArquivo(){
 }
 //LISTA E INICIALIZAÇÃO
 const listaDeAltos = [
-    { nome: "ALTO DO CARVALHO",  arquivo: "dados/Ilhéus/GeoJSON/AltoCarvalho.geojson" },
-    { nome: "ALTO DA ESPERANÇA", arquivo: "dados/Ilhéus/GeoJSON/AltoEsperança.geojson" },
-    { nome: "ALTO DO AURELIANO", arquivo: "dados/Ilhéus/GeoJSON/AltoAureliano.geojson" },
-    {nome: "ESPERANCA", arquivo: "dados/Ilhéus/GeoJSON/InundacaoEsperanca.geojson"}
+    { nome: "ALTO DO CARVALHO",  arquivo: "dados/Ilheus/GeoJSON/AltoCarvalho.geojson" },
+    { nome: "ALTO DA ESPERANÇA", arquivo: "dados/Ilheus/GeoJSON/AltoEsperança.geojson" },
+    { nome: "ALTO DO AURELIANO", arquivo: "dados/Ilheus/GeoJSON/AltoAureliano.geojson" },
+    {nome: "ESPERANCA", arquivo: "dados/Ilheus/GeoJSON/InundacaoEsperanca.geojson"}
 ];
 // Popula o Dropdown (Select) e carrega os dados
 const selectElement = document.getElementById('seletorAlto');
@@ -429,7 +429,7 @@ listaDeAltos.forEach(alto => {
 });
 // Preencher tabela
 function carregarTabela(nomeArquivo) {
-  const caminho = `/dados/Ilhéus/Tabelas-Ficha/${nomeArquivo}`;
+  const caminho = `/dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
@@ -504,7 +504,7 @@ function carregarTabela(nomeArquivo) {
 }
 function carregarTabelaArea(nomeArquivo) {
   
-  fetch(`/dados/Ilhéus/Tabelas-Ficha/${nomeArquivo}`)
+  fetch(`/dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`)
     .then(r => r.json())
     .then(dados => {
         document.getElementById("a-localidade").innerText = dados.localidade || "";
@@ -634,7 +634,7 @@ function carregarTabelaArea(nomeArquivo) {
 }
 function carregarQuadro(nomeArquivo) {
 
-  const caminho = `/dados/Ilhéus/Tabelas-Ficha/${nomeArquivo}`;
+  const caminho = `/dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
@@ -688,7 +688,7 @@ function carregarQuadro(nomeArquivo) {
     
 }
 function carregarTabelaIntervencao(nomeArquivo) {
-  const caminho = `/dados/Ilhéus/Tabelas-Ficha/${nomeArquivo}`;
+  const caminho = `/dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
@@ -739,7 +739,7 @@ function carregarTabelaIntervencao(nomeArquivo) {
     });
 }
 function carregarOrcamentoLim(nomeArquivo) {
-  const caminho = `/dados/Ilhéus/Tabelas-Ficha/${nomeArquivo}`;
+  const caminho = `/dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
@@ -801,7 +801,7 @@ function carregarOrcamentoLim(nomeArquivo) {
     });
 }
 function carregarOrcamentoRisco(nomeArquivo) {
-    const caminho = `dados/Ilhéus/Tabelas-Ficha/${nomeArquivo}`;
+    const caminho = `dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
@@ -863,7 +863,7 @@ function carregarOrcamentoRisco(nomeArquivo) {
     });
 }
 function carregarOrcamentoArea(nomeArquivo) {
-    const caminho = `dados/Ilhéus/Tabelas-Ficha/${nomeArquivo}`;
+    const caminho = `dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
