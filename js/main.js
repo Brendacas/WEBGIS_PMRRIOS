@@ -1,4 +1,5 @@
-
+const baseURL = window.location.pathname.split('/')[1];
+const basePath = baseURL ? `/${baseURL}/` : '/';
 // MAPA BASE
 const map = L.map('map').setView([-14.8, -39.0], 12);
 
@@ -429,7 +430,7 @@ listaDeAltos.forEach(alto => {
 });
 // Preencher tabela
 function carregarTabela(nomeArquivo) {
-  const caminho = `/dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
+  const caminho = `${basePath}dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
@@ -504,7 +505,7 @@ function carregarTabela(nomeArquivo) {
 }
 function carregarTabelaArea(nomeArquivo) {
   
-  fetch(`/dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`)
+  fetch(`${basePath}dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`)
     .then(r => r.json())
     .then(dados => {
         document.getElementById("a-localidade").innerText = dados.localidade || "";
@@ -634,7 +635,7 @@ function carregarTabelaArea(nomeArquivo) {
 }
 function carregarQuadro(nomeArquivo) {
 
-  const caminho = `/dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
+  const caminho = `${basePath}dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
@@ -688,7 +689,7 @@ function carregarQuadro(nomeArquivo) {
     
 }
 function carregarTabelaIntervencao(nomeArquivo) {
-  const caminho = `/dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
+  const caminho = `${basePath}dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
@@ -739,7 +740,7 @@ function carregarTabelaIntervencao(nomeArquivo) {
     });
 }
 function carregarOrcamentoLim(nomeArquivo) {
-  const caminho = `/dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
+  const caminho = `${basePath}dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
@@ -801,7 +802,7 @@ function carregarOrcamentoLim(nomeArquivo) {
     });
 }
 function carregarOrcamentoRisco(nomeArquivo) {
-    const caminho = `dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
+    const caminho = `${basePath}dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
@@ -863,7 +864,7 @@ function carregarOrcamentoRisco(nomeArquivo) {
     });
 }
 function carregarOrcamentoArea(nomeArquivo) {
-    const caminho = `dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
+    const caminho = `${basePath}dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
@@ -1111,4 +1112,3 @@ window.abrirQuadroEspecifico = function(tipo, props) {
     
     if (map) map.closePopup();  
 };
-
