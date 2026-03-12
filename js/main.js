@@ -1117,7 +1117,7 @@ window.abrirQuadroEspecifico = function(tipo, props) {
         }
     }
     else if(tipo == "baixar"){
-        window.baixar();
+        window.baixarArquivo();
     }
     
     if (map) map.closePopup();  

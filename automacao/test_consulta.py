@@ -201,3 +201,37 @@ valor_filho_2 = df_final.loc[df_final['ITEM'] == '04.02.002.002', 'Valor Parcial
 # 2. Atribuímos a soma ao pai (04.02.002)
 test = df_final.loc[df_final['ITEM'] == '04.02.002', 'Valor Parcial'] = valor_filho_1 + valor_filho_2
 print(test)
+
+import pandas as pd
+
+def identificar_pai(row):
+    # Converte para string e remove espaços, lidando com NaNs
+    item_str = str(row['ITEM']).strip()
+    
+    if item_str == 'nan' or not item_str:
+        return None
+        
+    partes = item_str.split('.')
+    
+    if row['PONTOS'] == 3:
+        # Pega as partes antes dos últimos 3 pontos
+        res = ".".join(partes[:-3])
+        return pd.to_numeric(res, errors='coerce') if res else None
+        
+    elif row['PONTOS'] == 4:
+        # Pega as partes antes dos últimos 4 pontos
+        res = ".".join(partes[:-4])
+        return pd.to_numeric(res, errors='coerce') if res else None
+        
+    return None
+
+# Aplicação da lógica
+df_final['PAI_TEMP'] = df_final.apply(identificar_pai, axis=1)
+df_final['PAI_REFERENCIA'] = np.floor(df_final['ITEM_KEY'])
+df_final['PAI_TEMP'] = df_final['PAI_REFERENCIA']
+# O restante do processo de soma permanece igual:
+somas_agrupadas = df_final.groupby('PAI_TEMP')['Valor Parcial'].sum().reset_index()
+somas_agrupadas.columns = ['ITEM_KEY', 'SOMA_TOTAL']
+
+df_final = pd.merge(df_final, somas_agrupadas, on='ITEM_KEY', how='left')
+df_final['Soma'] = df_final['SOMA_TOTAL'].fillna(0)
