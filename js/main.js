@@ -1,5 +1,6 @@
 const baseURL = window.location.pathname.split('/')[1];
 const basePath = baseURL ? `/${baseURL}/` : '/';
+
 // MAPA BASE
 const map = L.map('map').setView([-14.8, -39.0], 12);
 
