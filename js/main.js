@@ -399,11 +399,10 @@ function carregarAlto({ arquivo, nomeAlto }) {
         })
         .catch(err => console.error("Erro no GeoJSON:", err));
 }
-
 function baixarArquivo(){
     const link = document.createElement("a");
-    link.href = "Relatorio_Preços.xlsx";
-    link.download = "Relatorio_preços.xlsx";
+    link.href = "Relatorio_2024_12.xlsx";
+    link.download = "Relatorio_2024_12.xlsx";
     link.click();
 }
 //LISTA E INICIALIZAÇÃO
@@ -1118,7 +1117,7 @@ window.abrirQuadroEspecifico = function(tipo, props) {
         }
     }
     else if(tipo == "baixar"){
-        window.baixarArquivo();
+        window.baixar();
     }
     
     if (map) map.closePopup();  
