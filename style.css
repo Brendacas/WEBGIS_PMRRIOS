@@ -63,17 +63,17 @@ html, body {
 }
 
 #app.com-OrcamentoLim #planilha-orcamentoLim{
-  display: block ;
+  display: block !important;
   flex: 0 0 55% !important;
   width: 58% !important;
 }
 #app.com-OrcamentoArea #planilha-orcamentoArea{
-  display: block ;
+  display: block !important;
   flex: 0 0 55% !important;
   width: 58% !important;
 }
 #app.com-OrcamentoRisco #planilha-orcamentoRisco{
-  display: block ;
+  display: block !important;
   flex: 0 0 55% !important;
   width: 58% !important;
 }
