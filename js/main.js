@@ -741,7 +741,7 @@ function carregarTabelaIntervencao(nomeArquivo) {
     });
 }
 function carregarOrcamentoLim(nomeArquivo) {
-  const caminho = `${basePath}dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
+  const caminho = `dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {

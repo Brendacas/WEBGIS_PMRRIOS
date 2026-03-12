@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import os
 import re
 
@@ -142,7 +143,8 @@ for i, row in df_final.iterrows():
     nivel = row['PONTOS']
 
     filhos = df_final[
-        df_final['ITEM'].str.startswith(item + '.')
+        # Altere essa linha:
+        df_final['ITEM'].str.startswith(str(item) + '.')
     ]
 
     if not filhos.empty:
@@ -155,7 +157,8 @@ for i, row in df_final.iterrows():
 
         # nível 1 vai para soma_parcial
         if nivel == 1:
-            df_final.loc[i, 'soma_parcial'] = soma
+           df_final['soma_parcial'] = df_final['soma_parcial'].astype(float)
+           df_final.loc[i, 'soma_parcial'] = soma
 
 df_final['ITEM_KEY'] = pd.to_numeric(df_final['ITEM'], errors='coerce') # Converte para numérico para ignorar se é "01" ou "1"
 df_final['PAI_N1'] = df_final.apply(lambda x: pd.to_numeric(".".join(x['ITEM'].split('.')[:-3]), errors='coerce')  if x['PONTOS'] == 3 else None, axis=1)
@@ -164,6 +167,8 @@ soma_n1.columns = ['ITEM_KEY', 'SOMA_N1']
 df_final = pd.merge(df_final, soma_n1, on='ITEM_KEY', how='left')
 df_final['Soma'] = df_final['SOMA_N1'].fillna(0)
 #df_final = df_final.drop(columns=['PONTOS','Base_Soma','Soma_Hierarquica','codigo_pai'])
+
+#Percentual
 # valor base
 df_final['valor_base'] = df_final['Valor Parcial']
 
@@ -171,10 +176,10 @@ df_final['valor_base'] = df_final['Valor Parcial']
 mask_n1 = df_final['PONTOS'] == 1
 df_final.loc[mask_n1, 'valor_base'] = df_final.loc[mask_n1, 'soma_parcial']
 
-# descobrir setor (primeiros dois números)
+# descobrir setor 
 df_final['SETOR'] = df_final['ITEM'].str.split('.').str[0]
 
-# total de cada setor (soma dos níveis 1)
+# total de cada setor
 totais_setor = (
     df_final[df_final['PONTOS'] == 1]
     .groupby('SETOR')['valor_base']
@@ -186,6 +191,7 @@ df_final['total_setor'] = df_final['SETOR'].map(totais_setor)
 df_final['Parcial (%)'] = (df_final['valor_base'] / df_final['total_setor']) *2
 
 total_obra = df_final['Soma'].sum()
+print(total_obra/2)
 # calcular percentual
 df_final['(%)'] = (df_final['Soma'] / total_obra) * 2
 
@@ -222,9 +228,6 @@ indiceInter = df_final[
     (df_final['DESCRIÇÃO DO ITEM'] == "Subtotal - Áreas de Risco")
 ].index
 df_final.loc[indices, "Soma"] = total_geral
-percentual = 5
-Projeto = (percentual/100) * total_geral
-print(Projeto)
 
 #Obras Complemenentares
 valorObra = df_final.loc[indiceObras, "Soma"] 
@@ -267,7 +270,7 @@ with pd.ExcelWriter("Relatorio_2025_12.xlsx", engine='xlsxwriter') as writer:
 
 #Criar json
 
-json = df_exibicao.to_json(path_or_buf='Relatorio122024.json',
+json = df_exibicao.to_json(path_or_buf='Relatorio122025.json',
     orient='records',
     force_ascii=False,
     indent=4)
