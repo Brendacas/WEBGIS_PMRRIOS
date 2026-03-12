@@ -1,6 +1,7 @@
 const baseURL = window.location.pathname.split('/')[1];
 const basePath = baseURL ? `/${baseURL}/` : '/';
 
+
 // MAPA BASE
 const map = L.map('map').setView([-14.8, -39.0], 12);
 
@@ -431,7 +432,7 @@ listaDeAltos.forEach(alto => {
 });
 // Preencher tabela
 function carregarTabela(nomeArquivo) {
-  const caminho = `${basePath}dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
+  const caminho = `dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
@@ -506,7 +507,7 @@ function carregarTabela(nomeArquivo) {
 }
 function carregarTabelaArea(nomeArquivo) {
   
-  fetch(`${basePath}dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`)
+  fetch(`dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`)
     .then(r => r.json())
     .then(dados => {
         document.getElementById("a-localidade").innerText = dados.localidade || "";
@@ -636,7 +637,7 @@ function carregarTabelaArea(nomeArquivo) {
 }
 function carregarQuadro(nomeArquivo) {
 
-  const caminho = `${basePath}dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
+  const caminho = `dados/Ilheus/Tabelas-Ficha/${nomeArquivo}`;
 
   fetch(caminho)
     .then(response => {
@@ -922,35 +923,44 @@ function carregarOrcamentoArea(nomeArquivo) {
 }
 function fecharTabela() {
   const app = document.getElementById("app");
+  if (!app) return;
 
-  // 1. Remove as classes que ajustam o tamanho do mapa (Layout)
+  //  Remove todas as classes de controle de layout do APP
   app.classList.remove(
-    "com-tabela",
-    "com-area",
-    "com-quadro",
-    "com-tabelaIntervencao",
-    "com-planilha-orcamento",
-    "com-OrcamentoLim",
-    "com-OrcamentoRisco",
-    "com-OrcamentoArea"
+    "com-tabela", "com-area", "com-quadro", 
+    "com-tabelaIntervencao", "com-planilha-orcamento", 
+    "com-OrcamentoLim", "com-OrcamentoRisco", "com-OrcamentoArea"
   );
 
-  // 2. FORÇA O O ELEMENTO A SUMIR 
-  const painelArea = document.getElementById("painel-area");
-  if (painelArea) {
-      painelArea.style.display = "none";
+  const idsParaEsconder = [
+    "painel-tabela", "painel-area", "painel-quadro5", 
+    "painel-intervencoes", "planilha-orcamentoLim", 
+    "planilha-orcamentoArea", "planilha-orcamentoRisco"
+  ];
+
+  idsParaEsconder.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.display = "none"; // Força o desaparecimento
+    }
+  });
+
+  // Ajusta os controles do Leaflet
+  const controlesDireita = document.querySelector(".leaflet-right");
+  if (controlesDireita) {
+    controlesDireita.style.marginRight = "0px";
   }
 
-  // Devolve os controles para o lugar original (canto direito)
-    const controlesDireita = document.querySelector(".leaflet-right");
-    if (controlesDireita) {
-        controlesDireita.style.marginRight = "0px";
-    }
 
-  // 3. Atualiza o tamanho do mapa
   setTimeout(() => {
-    if (window.map) map.invalidateSize();
-  }, 300);
+    const mapaInstancia = window.map || map; 
+    
+    if (mapaInstancia && typeof mapaInstancia.invalidateSize === "function") {
+      mapaInstancia.invalidateSize();
+    } else {
+      console.warn("Instância do Leaflet não encontrada para redimensionar.");
+    }
+  }, 350);
 }
 let controleCamadas;
 function ativarCamadas() {
