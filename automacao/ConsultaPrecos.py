@@ -122,98 +122,40 @@ df_final['Valor Parcial'] = df_final['PRECO_UNIT'] * df_final['QUANT']
 df_final['ITEM'] = df_final['ITEM'].str.strip()
 df_final['PONTOS'] = df_final['ITEM'].str.count(r'\.')
 
-
-#  Garantir tipos de dados corretos para o cálculo
+# Garantir tipos corretos
 df_final['ITEM'] = df_final['ITEM'].astype(str).str.strip()
+
 df_final['Valor Parcial'] = pd.to_numeric(
     df_final['Valor Parcial'],
     errors='coerce'
 ).fillna(0)
 
-# Função para identificar o pai hierárquico
-def identificar_pai(item):
-    if not item or item == 'None':
-        return None
-
-    partes = item.split('.')
-
-    # Ex: '04.02' → pai = '4'
-    if len(partes) == 2:
-        try:
-            return str(int(partes[0]))
-        except ValueError:
-            return partes[0]
-
-    # Ex: '04.02.002.001' → '04.02.002'
-    if len(partes) > 2:
-        return ".".join(partes[:-1])
-
-    # Nível raiz não tem pai
-    return None
-
-# Criar coluna base (NUNCA é alterada)
-df_final['Base_Soma'] = df_final['Valor Parcial']
-
-# Dicionário inicial
-soma_hierarquica = dict(
-    zip(df_final['ITEM'], df_final['Base_Soma'])
-)
-
-# Soma hierárquica POR CAMADA
-niveis = sorted(df_final['PONTOS'].unique(), reverse=True)
-
-for nivel in niveis:
-    filhos = df_final[df_final['PONTOS'] == nivel]
-
-    for _, row in filhos.iterrows():
-        filho = row['ITEM']
-        pai = identificar_pai(filho)
-
-        if pai in soma_hierarquica:
-            # o pai recebe o valor FINAL do filho
-            soma_hierarquica[pai] += soma_hierarquica[filho]
-
-#  Mapear resultado final
-df_final['Soma_Hierarquica'] = df_final['ITEM'].map(soma_hierarquica)
-
-mask = (
-    df_final['PONTOS'].isin([2, 3])
-) & (
-    df_final['Soma_Hierarquica'].notna()
-)
-
-df_final.loc[mask, 'Valor Parcial'] = df_final.loc[mask, 'Soma_Hierarquica']
-
-
+# Quantidade de níveis
 df_final['PONTOS'] = df_final['ITEM'].str.count('\.')
 
-# Criar uma coluna identificando quem é o "Pai" de cada item (para nivel 4)
-# Ex: 04.02.002.001 vira 04.02.002
-df_final['codigo_pai'] = df_final['ITEM'].str.rsplit('.', n=2).str[0]
+# coluna resultado
+df_final['soma_parcial'] = 0
 
-#Calcular a soma dos filhos para cada pai
-soma_filhos = df_final[df_final['PONTOS'] == 4].groupby('codigo_pai')['Valor Parcial'].sum()
+for i, row in df_final.iterrows():
 
-#  Atualizar o valor dos pais (3 pontos) com a soma calculada
-# Transformamos a soma em um dicionário para facilitar o mapeamento
-mapa_somas = soma_filhos.to_dict()
+    item = row['ITEM']
+    nivel = row['PONTOS']
 
-def atualizar_valor(row):
-    # Se for um item de 2 pontos e existir uma soma para ele, atualiza
-    if row['PONTOS'] == 2 and row['ITEM'] in mapa_somas:
-        return mapa_somas[row['ITEM']]
-    return row['Valor Parcial']
+    filhos = df_final[
+        df_final['ITEM'].str.startswith(item + '.')
+    ]
 
+    if not filhos.empty:
 
-df_final['Valor Parcial'] = df_final.apply(atualizar_valor, axis=1)
-mask = (df_final['ITEM'].isin(mapa_somas.keys())) & (df_final['ITEM'].str.count('\.') == 3)
+        soma = filhos['Valor Parcial'].sum()
 
-df_final.loc[mask, 'Valor Parcial'] = df_final['ITEM'].map(mapa_somas)
+        # níveis 4,3,2 atualizam Valor Parcial
+        if nivel >= 2:
+            df_final.loc[i, 'Valor Parcial'] = soma
 
-df_final['PAI_N2'] = df_final.apply(lambda x: ".".join(x['ITEM'].split('.')[:-2]) if x['PONTOS'] == 3 else None, axis=1)
-soma_n2 = df_final.groupby('codigo_pai')['Valor Parcial'].sum().reset_index().rename(columns={'codigo_pai': 'ITEM', 'Valor Parcial': 'SOMA_N2'})
-df_final = pd.merge(df_final, soma_n2, on='ITEM', how='left').fillna(0)
-df_final['soma_parcial'] = df_final['SOMA_N2']
+        # nível 1 vai para soma_parcial
+        if nivel == 1:
+            df_final.loc[i, 'soma_parcial'] = soma
 
 df_final['ITEM_KEY'] = pd.to_numeric(df_final['ITEM'], errors='coerce') # Converte para numérico para ignorar se é "01" ou "1"
 df_final['PAI_N1'] = df_final.apply(lambda x: pd.to_numeric(".".join(x['ITEM'].split('.')[:-3]), errors='coerce')  if x['PONTOS'] == 3 else None, axis=1)
@@ -221,8 +163,31 @@ soma_n1 = df_final.groupby('PAI_N1')['Valor Parcial'].sum().reset_index()
 soma_n1.columns = ['ITEM_KEY', 'SOMA_N1']
 df_final = pd.merge(df_final, soma_n1, on='ITEM_KEY', how='left')
 df_final['Soma'] = df_final['SOMA_N1'].fillna(0)
-
 #df_final = df_final.drop(columns=['PONTOS','Base_Soma','Soma_Hierarquica','codigo_pai'])
+# valor base
+df_final['valor_base'] = df_final['Valor Parcial']
+
+# nível 1 usa soma_parcial
+mask_n1 = df_final['PONTOS'] == 1
+df_final.loc[mask_n1, 'valor_base'] = df_final.loc[mask_n1, 'soma_parcial']
+
+# descobrir setor (primeiros dois números)
+df_final['SETOR'] = df_final['ITEM'].str.split('.').str[0]
+
+# total de cada setor (soma dos níveis 1)
+totais_setor = (
+    df_final[df_final['PONTOS'] == 1]
+    .groupby('SETOR')['valor_base']
+    .sum()
+)
+# mapear total do setor para cada linha
+df_final['total_setor'] = df_final['SETOR'].map(totais_setor)
+# calcular percentual
+df_final['Parcial (%)'] = (df_final['valor_base'] / df_final['total_setor']) *2
+
+total_obra = df_final['Soma'].sum()
+# calcular percentual
+df_final['(%)'] = (df_final['Soma'] / total_obra) * 2
 
 # Valor Total
 indices = df_final[
