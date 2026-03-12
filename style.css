@@ -39,41 +39,41 @@ html, body {
 }
 
 #app.com-tabela #painel-tabela {
-  display: block !important;
+  display: block ;
   flex: 0 0 45% !important;
   width: 45% !important;
 }
 
 #app.com-area #painel-area {
-  display: block !important;
+  display: block ;
   flex: 0 0 45% !important;
   width: 45% !important;
 }
 
 #app.com-quadro #painel-quadro5 {
-  display: block !important;
+  display: block ;
   flex: 0 0 45% !important;
   width: 45% !important;
 }
 
 #app.com-tabelaIntervencao #painel-intervencoes {
-  display: block !important;
+  display: block ;
   flex: 0 0 45% !important;
   width: 45% !important;
 }
 
 #app.com-OrcamentoLim #planilha-orcamentoLim{
-  display: block !important;
+  display: block ;
   flex: 0 0 55% !important;
   width: 58% !important;
 }
 #app.com-OrcamentoArea #planilha-orcamentoArea{
-  display: block !important;
+  display: block ;
   flex: 0 0 55% !important;
   width: 58% !important;
 }
 #app.com-OrcamentoRisco #planilha-orcamentoRisco{
-  display: block !important;
+  display: block ;
   flex: 0 0 55% !important;
   width: 58% !important;
 }
